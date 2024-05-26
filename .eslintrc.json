@@ -9,7 +9,8 @@
     "prettier",
     "next/core-web-vitals",
     "plugin:prettier/recommended",
-    "eslint:recommended", "next"
+    "eslint:recommended",
+    "next"
   ],
   "overrides": [],
   "parser": "@typescript-eslint/parser",
@@ -45,6 +46,7 @@
       }
     ],
     "react-hooks/exhaustive-deps": "warn",
+    "react/no-unescaped-entities": "off",
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
     "prettier/prettier": [

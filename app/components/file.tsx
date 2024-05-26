@@ -138,22 +138,28 @@ export const File = ({ fileName }: { fileName: string }) => {
                <CardFooter className="pt-4 pb-4">
                   <h3 className="text-small">Sources :</h3>
                   <div className="flex flex-row">
-                     {sources.map((value: { name: string; link: string }) => {
-                        return (
-                           <div className="p-2">
-                              <Link
-                                 className="p-2"
-                                 isBlock
-                                 showAnchorIcon
-                                 size="sm"
-                                 color="foreground"
-                                 href={value.link}
-                              >
-                                 {value.name}
-                              </Link>
-                           </div>
-                        )
-                     })}
+                     {sources.map(
+                        (
+                           value: { name: string; link: string },
+                           index: number
+                        ) => {
+                           return (
+                              <div className="p-2" key={index}>
+                                 <Link
+                                    className="p-2"
+                                    key={index}
+                                    isBlock
+                                    showAnchorIcon
+                                    size="sm"
+                                    color="foreground"
+                                    href={value.link}
+                                 >
+                                    {value.name}
+                                 </Link>
+                              </div>
+                           )
+                        }
+                     )}
                   </div>
                </CardFooter>
             )}

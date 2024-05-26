@@ -3,7 +3,7 @@
 import Info from '@/app/components/info'
 import { File } from '@/app/components/file'
 import { Question } from '@/app/components/question'
-import { useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Textarea } from '@nextui-org/input'
 import { Button } from '@nextui-org/button'
 import { Answer } from '@/app/components/answer'
