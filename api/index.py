@@ -3,9 +3,9 @@ import os
 import requests
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify, send_file
+from langchain.embeddings import HuggingFaceInferenceAPIEmbeddings
 from langchain.prompts import ChatPromptTemplate
-from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain.vectorstores import Chroma
 
 app = Flask(__name__)
 

@@ -1,8 +1,8 @@
 {
   "functions": {
     "api/**": {
-      "excludeFiles": "{.next,*.cache,node_modules,public,app}/**",
-      "includeFiles": "{files, chroma}/**"
+      "excludeFiles": "{.next,*.cache,node_modules,public,app,api/setup}/**",
+      "includeFiles": "{chroma}/**"
     }
   },
   "rewrites": [
