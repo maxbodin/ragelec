@@ -71,6 +71,7 @@ importers:
       typescript:
         specifier: 5.0.4
         version: 5.0.4
+    devDependencies:
       vercel:
         specifier: ^34.2.3
         version: 34.2.3
