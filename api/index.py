@@ -1,17 +1,11 @@
-import logging
 import os
-import sys
 
 import requests
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from langchain.prompts import ChatPromptTemplate
+from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
 from langchain_community.vectorstores import Chroma
-
-from get_embedding_function import get_embedding_function
-
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
 
 app = Flask(__name__)
 
@@ -28,9 +22,19 @@ Réponds en français à la question en t'appuyant sur le contexte au-dessus : {
 """
 
 
-@app.route("/", methods=["GET"])
+@app.route("/api", methods=["GET"])
 def health_check():
-    return jsonify({"sucess": "L'API fonctionne!"}), 200
+    return jsonify({"success": "L'API fonctionne!"}), 200
+
+
+def get_embedding_function():
+    load_dotenv()
+
+    embeddings = HuggingFaceInferenceAPIEmbeddings(
+        api_key=os.getenv('HF_TOKEN'),
+        model_name="thenlper/gte-large")
+
+    return embeddings
 
 
 @app.route("/api/request", methods=["POST"])
@@ -44,7 +48,7 @@ def query_chat():
     user_question = data['question']
 
     # Prepare the DB.
-    db = Chroma(persist_directory=os.getenv('CHROMA_PATH'), embedding_function=get_embedding_function())
+    db = Chroma(persist_directory=os.path.join(os.getcwd(), "chroma"), embedding_function=get_embedding_function())
 
     # Search the DB.
     results = db.similarity_search_with_score(user_question, k=5)
@@ -82,16 +86,35 @@ def query_chat():
         return jsonify({"error": f"Impossible d'obtenir une réponse !"})
 
 
+@app.route("/api/file/<filename>", methods=["GET"])
+def get_file(filename):
+    try:
+        # Get the path to the file specified in the URL
+        file_path = os.path.join(os.getcwd(), f"files/{filename}.pdf")
+
+        # Check if the file exists
+        if not os.path.isfile(file_path):
+            return jsonify({"error": "File not found"}), 404
+
+        # Send the file as a response
+        return send_file(file_path, as_attachment=True)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/api/files', methods=['GET'])
 def list_files():
-    load_dotenv()
-
     try:
-        files = os.listdir(os.getenv('DATA_PATH'))
-        file_list = [{'name': file} for file in files if os.path.isfile(os.path.join(os.getenv('DATA_PATH'), file))]
-        return jsonify(file_list)
+        # Get the path to the files' directory.
+        files_directory = os.path.join(os.getcwd(), "files")
+
+        # List all files in the directory
+        files = [{'name': f} for f in os.listdir(files_directory) if os.path.isfile(os.path.join(files_directory, f))]
+
+        # Return the list of files as a JSON response
+        return jsonify({"files": files})
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
 
 
 @app.errorhandler(404)
