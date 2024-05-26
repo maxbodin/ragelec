@@ -13,7 +13,7 @@ from get_embedding_function import get_embedding_function
 def main():
     load_dotenv()
     # Create (or update) the data store.
-    documents = PyPDFDirectoryLoader(os.getenv('DATA_PATH')).load()
+    documents = PyPDFDirectoryLoader(os.path.join(os.getcwd(), "chroma")).load()
 
     for document in documents:
         document.page_content = document.page_content.replace("\n", "")
@@ -38,7 +38,7 @@ def add_to_chroma(chunks: list[Document]):
     load_dotenv()
     # Load the existing database.
     db = Chroma(
-        persist_directory=os.getenv('CHROMA_PATH'), embedding_function=get_embedding_function()
+        persist_directory=os.path.join(os.getcwd(), "chroma"), embedding_function=get_embedding_function()
     )
 
     # Calculate Page IDs.
@@ -94,8 +94,8 @@ def calculate_chunk_ids(chunks):
 
 def clear_database():
     load_dotenv()
-    if os.path.exists(os.getenv('CHROMA_PATH')):
-        shutil.rmtree(os.getenv('CHROMA_PATH'))
+    if os.path.exists(os.path.join(os.getcwd(), "chroma")):
+        shutil.rmtree(os.path.join(os.getcwd(), "chroma"))
 
 
 if __name__ == "__main__":
