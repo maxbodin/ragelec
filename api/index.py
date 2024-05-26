@@ -87,3 +87,8 @@ def list_files():
         return jsonify(file_list)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return jsonify({"status": 404, "message": "Page non trouvée."}), 404
