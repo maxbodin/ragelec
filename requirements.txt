@@ -29,3 +29,4 @@ langsmith~=0.1.63
 SQLAlchemy~=2.0.30
 jsonpointer~=2.4
 jsonpatch~=1.33
+langchain-community
