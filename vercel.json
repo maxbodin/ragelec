@@ -1,4 +1,16 @@
 {
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api/index.py"
+    }
+  ],
   "functions": {
     "api/**": {
       "excludeFiles": "{.next,*.cache,node_modules,public,app}/**"
@@ -6,7 +18,7 @@
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/(.*)",
       "destination": "/api/index"
     }
   ]

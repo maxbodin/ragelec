@@ -28,6 +28,11 @@ Réponds en français à la question en t'appuyant sur le contexte au-dessus : {
 """
 
 
+@app.route("/", methods=["GET"])
+def health_check():
+    return jsonify({"sucess": "L'API fonctionne!"}), 200
+
+
 @app.route("/api/request", methods=["POST"])
 def query_chat():
     load_dotenv()
