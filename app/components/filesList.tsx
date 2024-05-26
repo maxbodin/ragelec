@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from 'react'
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card'
 import { FileChip } from '@/app/components/fileChip'

@@ -1,3 +1,4 @@
+'use client'
 import { Chip } from '@nextui-org/chip'
 import { PDFIcon } from '@/app/icons/pdfIcon'
 import { useChat } from '@/app/providers/chatProvider'

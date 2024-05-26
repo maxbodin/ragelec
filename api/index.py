@@ -80,7 +80,7 @@ def query_chat():
 @app.route('/api/files', methods=['GET'])
 def list_files():
     load_dotenv()
-    
+
     try:
         files = os.listdir(os.getenv('DATA_PATH'))
         file_list = [{'name': file} for file in files if os.path.isfile(os.path.join(os.getenv('DATA_PATH'), file))]
